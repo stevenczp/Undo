@@ -96,7 +96,7 @@ public class MyArrayList<T> implements MyList<T> {
 			capacity = initcapacity;
 		} else {
 			capacity  =  minCapacity * 2;
-			list = Arrays.copyOf(list, minCapacity * 2);
+			list = Arrays.copyOf(list, capacity);
 		}
 	}
 
