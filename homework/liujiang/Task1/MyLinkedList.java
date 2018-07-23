@@ -80,6 +80,7 @@ public class MyLinkedList<T> implements MyList<T> {
 		head.setData(null);
 		head.setNext(null);
 		head.setPre(null);
+		current = head;
 		size = 0;
 	}
 	@Override
