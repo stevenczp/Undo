@@ -95,6 +95,7 @@ public class MyArrayList<T> implements MyList<T> {
 			list = (T[]) new Object[initcapacity];
 			capacity = initcapacity;
 		} else {
+			capacity  =  minCapacity * 2;
 			list = Arrays.copyOf(list, minCapacity * 2);
 		}
 	}
