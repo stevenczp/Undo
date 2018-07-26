@@ -31,7 +31,7 @@ public class MyLinkedList implements MyList{
     //构造方法
     public MyLinkedList() {
     }
-    //链表长度
+    //获取链表长度
     public int size(){
         return size;
     }
