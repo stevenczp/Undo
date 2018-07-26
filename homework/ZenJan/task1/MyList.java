@@ -1,7 +1,7 @@
 package com.cc.test.learn;
 
 /**
- * @author cc
+ * @author 大师
  * @date 2018/7/23 下午8:25
  */
 public interface MyList {
