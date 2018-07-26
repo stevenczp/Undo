@@ -68,7 +68,7 @@ public class MyArrayList implements MyList{
     public void checkSize(){
         if(size >= array.length ){
             Object[] newArray = new Object[size*2+1];
-            System.arraycopy(array,0,newArray,0,array.length);
+            System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
         }
     }
