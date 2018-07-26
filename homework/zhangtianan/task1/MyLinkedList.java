@@ -87,7 +87,7 @@ public class MyLinkedList implements MyList
      {
            if(index<0||index>size)
            {
-        	   throw new IllegalArgumentException("角标越界");
+        	   throw new IllegalArgumentException("下标出错");
            }
                Node temp=head;
                int i=0;
