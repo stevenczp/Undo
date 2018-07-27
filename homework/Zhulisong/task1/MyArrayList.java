@@ -3,6 +3,11 @@ package com.ds;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * List接口的泛型数组实现
+ * @author 朱立松
+ *
+ */
 public class MyArrayList implements MyList {
 	
 	//定义一个List成员变量
