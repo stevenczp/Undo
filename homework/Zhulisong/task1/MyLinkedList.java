@@ -1,5 +1,10 @@
 package com.ds;
 
+/**
+ * List接口的链表实现
+ * @author 朱立松
+ *
+ */
 public class MyLinkedList implements MyList {
 	
 	//节点属性
