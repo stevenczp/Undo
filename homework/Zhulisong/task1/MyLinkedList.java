@@ -49,6 +49,7 @@ public class MyLinkedList implements MyList {
 			MyLinkedList node = this;
 			while(node.next != null) {
 				count ++;
+				//指向下一个节点
 				node = node.next;
 			}
 			return count;
@@ -116,6 +117,7 @@ public class MyLinkedList implements MyList {
 		MyLinkedList node = this;
 		//遍历链表
 		while(count < index) {
+			//指向下一个节点
 			node = node.next;
 			count++;
 			//若当前遍历的node已为空，表示index大于链表长度，则返回null
@@ -150,6 +152,7 @@ public class MyLinkedList implements MyList {
 				}
 			}
 			Object object = node.getObject();
+			//要删除节点n的前一个节点node指向要删除节点s的下一个节点
 			node.next = node.next.next;
 			return object;	
 			
