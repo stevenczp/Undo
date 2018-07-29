@@ -1,0 +1,3 @@
+1. ArrayList中remove方法没有修改currentLength
+1. LinkedList中，add方法每次都会遍历整个链表，可以考虑用额外的tail指针加速
+1. clear方法最好将各个节点手动设为null，这样可以便于gc工作
