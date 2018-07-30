@@ -1,19 +1,38 @@
 package com.cc.test.learn;
 
-public class MyArrayList implements MyList{
-	//é»˜è®¤é•¿åº¦ä¸º12
-	private Object[] myArray = new Object[12];
-	//å½“å‰é›†åˆé•¿åº¦
+
+
+public class MyLinkedList implements MyList{
+	
+	//Á´±í¼¯ºÏÊ×¸öÔªËØ
+	private Node first = null;
+	//Á´±í¼¯ºÏ×îºóÒ»¸öÔªËØ
+	private Node last = null;
+	//Á´±í¼¯ºÏ³¤¶È
 	private int length = 0;
 	
+	//Á´±í¼¯ºÏ½Úµã
+	private static class Node {
+		Object item;   //½ÚµãÖµ
+		Node next;     //½ÚµãÖ¸Õë
+		Node prev;     //Ç°ÇýÖ¸Õë,ºó¼ÇÖ¸Õë
+		
+		
+		Node(Node prev, Object element, Node next){
+			this.item = element;
+			this.next = next;
+			this.prev = prev;
+		}
+	}
 	
-	//è¿”å›žé›†åˆé•¿åº¦
+
+	//·µ»Ø¼¯ºÏ³¤¶È
 	@Override
 	public int size() {
 		return length;
 	}
 
-	//åˆ¤æ–­é›†åˆæ˜¯å¦ä¸ºç©º 
+	//ÅÐ¶Ï¼¯ºÏÊÇ·ñÎª¿Õ
 	@Override
 	public boolean isEmpty() {
 		if (length == 0) {
@@ -21,128 +40,153 @@ public class MyArrayList implements MyList{
 		} else {
 			return false;			
 		}
-		
 	}
 
-	//ç»™é›†åˆæ·»åŠ ä¸€ä¸ªå…ƒç´ 
+	//¸ø¼¯ºÏÌí¼ÓÒ»¸öÔªËØ
 	@Override
 	public void add(Object element) {
-		//é›†åˆä¸­å…ƒç´ ä¸ªæ•°è¾¾åˆ°æ•°ç»„é•¿åº¦---->æ‰©å®¹
-		if (length == myArray.length) {
-			Object [] oldArray = myArray;
-			//æ‰©å®¹é•¿åº¦é»˜è®¤å¢žåŠ 12
-			myArray = new Object[length+12];
-			//å°†åŽŸæ¥æ•°ç»„å…ƒç´ å¤åˆ¶åˆ°æ–°æ•°ç»„ä¸­
-			length = 0;
-			for(Object array : oldArray) {
-				myArray[length++] = array;
-			}	
-		} 
-		//æ·»åŠ æ–°å…ƒç´ 
-		myArray[length++] = element;
+		
+		if (this.isEmpty()) {
+			//¼¯ºÏÎª¿Õ
+			first = last = new Node(last, element, first);
+			first.prev = last;
+			last.next = first;
+			length++;
+		} else {
+			Node newNode = new Node(last, element, first);
+			last.next = newNode;
+			first.prev = newNode;
+			last = newNode;
+			length++;
+		}
+	}
+	
+	
+	//ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+	public void checkIndex(int index) {
+		
+		if(index >= length || index < 0) {
+			try {
+				throw new Exception("ÏÂ±êÔ½½ç");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public Node findNodeByIndex(int index) {
+		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		if (index > length/2) {
+			Node node = last;
+			for(int i = length-1; i > index; i--) {
+				node = node.prev;
+			}
+			return node;
+			
+		} else {
+	
+			Node node = first;
+			for(int i = 0; i < index; i++) {
+				node = node.next;
+			}
+			return node;
+		}
 		
 	}
 	
+	
+	
 
-
-	//èŽ·å¾—ç´¢å¼•å€¼å…ƒç´ 
+	//»ñµÃË÷ÒýÖµÔªËØ
 	@Override
 	public Object get(int index) {
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
-		if(index >= length || index < 0) {
-			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} 
-		return myArray[index];			
+//		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		Node node = findNodeByIndex(index);
+		return node.item; //±éÀúµ½µ±Ç°Ë÷ÒýÎ»ÖÃ
 	}
-
-	//æŒ‰ç´¢å¼•ä½ç½®è®¾ç½®å€¼
+	
+	//°´Ë÷ÒýÎ»ÖÃÉèÖÃÖµ
 	@Override
 	public Object set(int index, Object element) {
-		Object oldElement = null;   //å­˜æ”¾å½“å‰ç´¢å¼•ä½ç½®çš„å€¼
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
-		if(index >= length || index < 0) {
-			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			oldElement = myArray[index];
-			myArray[index] = element;			
-		}
-		return oldElement;
+//		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		
+		Node node = findNodeByIndex(index); //±éÀúµ½µ±Ç°Ë÷ÒýÎ»ÖÃ
+		
+		Object oldValue = node.item;
+		node.item = element;
+		return oldValue;
 	}
+	
 
-	//æŒ‰ç´¢å¼•ä½ç½®ç§»é™¤å…ƒç´ 
+	
+	
+	//°´Ë÷ÒýÎ»ÖÃÒÆ³ýÔªËØ
 	@Override
 	public Object remove(int index) {
-		Object oldElement = null;
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
-		if(index >= length || index < 0) {
-			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			oldElement = myArray[index];
-			for(int i = index+1; i < length; i++) {
-				myArray[i-1] = myArray[i];
-			}
-			length--;
+//		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		
+		Node node = findNodeByIndex(index); //±éÀúµ½µ±Ç°Ë÷ÒýÎ»ÖÃ
+		
+		if (node == first) {
+			first = node.next;
+		} else if (node == last) {
+			last = node.prev;
 		}
-		return oldElement;
+	
+		Object oldValue = node.item;
+		node.next.prev = node.prev;
+		node.prev.next = node.next;
+		
+		length--;
+		return oldValue;
 	}
-
-	//æ¸…ç©ºé›†åˆ
+	
+	//Çå¿Õ¼¯ºÏ
 	@Override
 	public void clear() {
-		myArray = new Object[12];
-		length=0;
+		first = last = null;
+		Node current = first;
+		while(current != last) {
+			current = current.next;
+			first = null;
+			first = current;
+		}
+		length = 0;
 	}
 	
-	//æ‰“å°é›†åˆ
+	//´òÓ¡¼¯ºÏ
 	public void printList() {
-		for(int i = 0; i < length; i++) {
-			System.out.println(myArray[i]);
+		Node n = first;
+		for (int i = 0; i< length; i++) {
+			System.out.println(n.item);
+			n = n.next;
 		}
 	}
 	
-	//æµ‹è¯•
+	//²âÊÔ
 	public static void main(String[] args) {
-		MyArrayList list = new MyArrayList();
-		list.add("a");
+		MyLinkedList list = new MyLinkedList();
+		list.add("a");		
 		list.add("b");
 		list.add("c");
 		list.add("d");
 		list.add("e");
 		list.add("f");
 		list.add("g");
-		list.add("h");
-		list.add("i");
-		list.add("j");
-		list.add("k");
-		list.add("l");
-		list.add("m");
 		list.printList();
 		System.out.println("-----------");
 		System.out.println(list.get(2));
 		System.out.println("-----------");
-		//list.remove(-1);
-		list.remove(2);
+//		list.remove(-1);
+		for(int i = 6;i >= 0;i--) {
+			list.remove(i);		
+		}
 		list.printList();
 		System.out.println("-----------");
-		list.set(3, "h");
+//		list.set(3, "h");
 		list.printList();
 		System.out.println("-----------");
 		list.clear();
 		System.out.println(list.isEmpty());
-
-	
 	}
-
 }
