@@ -1,19 +1,19 @@
 package com.cc.test.learn;
 
 public class MyArrayList implements MyList{
-	//é»˜è®¤é•¿åº¦ä¸º12
-	private Object[] myArray = new Object[12];
-	//å½“å‰é›†åˆé•¿åº¦
+	//Ä¬ÈÏ³¤¶ÈÎª10
+	private Object[] myArray = new Object[10];
+	//µ±Ç°¼¯ºÏ³¤¶È
 	private int length = 0;
 	
 	
-	//è¿”å›žé›†åˆé•¿åº¦
+	//·µ»Ø¼¯ºÏ³¤¶È
 	@Override
 	public int size() {
 		return length;
 	}
 
-	//åˆ¤æ–­é›†åˆæ˜¯å¦ä¸ºç©º 
+	//ÅÐ¶Ï¼¯ºÏÊÇ·ñÎª¿Õ 
 	@Override
 	public boolean isEmpty() {
 		if (length == 0) {
@@ -24,125 +24,111 @@ public class MyArrayList implements MyList{
 		
 	}
 
-	//ç»™é›†åˆæ·»åŠ ä¸€ä¸ªå…ƒç´ 
+	//¸ø¼¯ºÏÌí¼ÓÒ»¸öÔªËØ
 	@Override
 	public void add(Object element) {
-		//é›†åˆä¸­å…ƒç´ ä¸ªæ•°è¾¾åˆ°æ•°ç»„é•¿åº¦---->æ‰©å®¹
+		//¼¯ºÏÖÐÔªËØ¸öÊý´ïµ½Êý×é³¤¶È---->À©ÈÝ
 		if (length == myArray.length) {
 			Object [] oldArray = myArray;
-			//æ‰©å®¹é•¿åº¦é»˜è®¤å¢žåŠ 12
-			myArray = new Object[length+12];
-			//å°†åŽŸæ¥æ•°ç»„å…ƒç´ å¤åˆ¶åˆ°æ–°æ•°ç»„ä¸­
+			//À©ÈÝ³¤¶ÈÄ¬ÈÏÔö¼Ó12
+			myArray = new Object[length*2];
+			//½«Ô­À´Êý×éÔªËØ¸´ÖÆµ½ÐÂÊý×éÖÐ
 			length = 0;
 			for(Object array : oldArray) {
 				myArray[length++] = array;
 			}	
 		} 
-		//æ·»åŠ æ–°å…ƒç´ 
+		//Ìí¼ÓÐÂÔªËØ
 		myArray[length++] = element;
 		
 	}
-	
 
-
-	//èŽ·å¾—ç´¢å¼•å€¼å…ƒç´ 
-	@Override
-	public Object get(int index) {
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
+	//¼ì²âÏÂ±êÊÇ·ñºÏ·¨
+	public void checkIndex(int index) {
 		if(index >= length || index < 0) {
 			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
+				throw new Exception("ÏÂ±êÔ½½ç");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} 
+	}
+
+	//»ñµÃË÷ÒýÖµÔªËØ
+	@Override
+	public Object get(int index) {
+		checkIndex(index);
 		return myArray[index];			
 	}
 
-	//æŒ‰ç´¢å¼•ä½ç½®è®¾ç½®å€¼
+	//°´Ë÷ÒýÎ»ÖÃÉèÖÃÖµ
 	@Override
 	public Object set(int index, Object element) {
-		Object oldElement = null;   //å­˜æ”¾å½“å‰ç´¢å¼•ä½ç½®çš„å€¼
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
-		if(index >= length || index < 0) {
-			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			oldElement = myArray[index];
-			myArray[index] = element;			
-		}
+		Object oldElement = null;   //´æ·Åµ±Ç°Ë÷ÒýÎ»ÖÃµÄÖµ
+		
+		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		 
+		oldElement = myArray[index];
+		myArray[index] = element;			
+		
 		return oldElement;
 	}
 
-	//æŒ‰ç´¢å¼•ä½ç½®ç§»é™¤å…ƒç´ 
+	//°´Ë÷ÒýÎ»ÖÃÒÆ³ýÔªËØ
 	@Override
 	public Object remove(int index) {
 		Object oldElement = null;
-		//åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶Šç•Œ
-		if(index >= length || index < 0) {
-			try {
-				throw new Exception("ä¸‹æ ‡è¶Šç•Œ");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			oldElement = myArray[index];
-			for(int i = index+1; i < length; i++) {
-				myArray[i-1] = myArray[i];
-			}
-			length--;
+		
+		checkIndex(index);    //ÅÐ¶ÏË÷ÒýÊÇ·ñÔ½½ç
+		
+		oldElement = myArray[index];
+		for(int i = index+1; i < length; i++) {
+			myArray[i-1] = myArray[i];
 		}
+		length--;
+		
 		return oldElement;
 	}
 
-	//æ¸…ç©ºé›†åˆ
+	//Çå¿Õ¼¯ºÏ
 	@Override
 	public void clear() {
 		myArray = new Object[12];
 		length=0;
 	}
 	
-	//æ‰“å°é›†åˆ
+	//´òÓ¡¼¯ºÏ
 	public void printList() {
 		for(int i = 0; i < length; i++) {
 			System.out.println(myArray[i]);
 		}
 	}
 	
-	//æµ‹è¯•
-	public static void main(String[] args) {
-		MyArrayList list = new MyArrayList();
-		list.add("a");
-		list.add("b");
-		list.add("c");
-		list.add("d");
-		list.add("e");
-		list.add("f");
-		list.add("g");
-		list.add("h");
-		list.add("i");
-		list.add("j");
-		list.add("k");
-		list.add("l");
-		list.add("m");
-		list.printList();
-		System.out.println("-----------");
-		System.out.println(list.get(2));
-		System.out.println("-----------");
-		//list.remove(-1);
-		list.remove(2);
-		list.printList();
-		System.out.println("-----------");
-		list.set(3, "h");
-		list.printList();
-		System.out.println("-----------");
-		list.clear();
-		System.out.println(list.isEmpty());
-
-	
-	}
+	//²âÊÔ
+		public static void main(String[] args) {
+			MyLinkedList list = new MyLinkedList();
+			list.add("a");		
+			list.add("b");
+			list.add("c");
+			list.add("d");
+			list.add("e");
+			list.add("f");
+			list.add("g");
+			list.printList();
+			System.out.println("-----------");
+			System.out.println(list.get(2));
+			System.out.println("-----------");
+//			list.remove(-1);
+			for(int i =0;i< 7;i++) {
+				list.remove(i);		
+			}
+			list.printList();
+			System.out.println("-----------");
+//			list.set(3, "h");
+			list.printList();
+			System.out.println("-----------");
+			list.clear();
+			System.out.println(list.isEmpty());
+		}
 
 }
