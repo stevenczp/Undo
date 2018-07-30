@@ -3,13 +3,14 @@ package com.cc.test.learn;
 /**
  * 继承MyList接口基于单链表实现MyLinkedList
  * @author LiDanyang
- * @version 1.0 2018-07-25
+ * @version 2.0 2018-07-30
  */
 public class MyLinkedList implements MyList {
 	
 	private int size;//链表内元素总量
 	private Node head;//头指针
 	private Node current;//当前结点对象
+	private Node tail;//尾指针
 	
 
 	
@@ -59,7 +60,7 @@ public class MyLinkedList implements MyList {
 	 */
 	public MyLinkedList()
 	{
-		this.head = current = new Node(null);
+		this.head = current = tail = new Node(null);
 		this.size = 0;
 	}
 	
@@ -88,19 +89,10 @@ public class MyLinkedList implements MyList {
 	 */
 	public void add(Object element)
 	{
-		if(element == null)
-		{
-			return;
-		}
+		
 		Node newNode = new Node(element,null);
-		if(head == null)
-		{
-			head = newNode;
-		}
-		else
-		{
-			head.addNode(newNode);
-		}
+		tail.next = newNode;
+		tail = newNode;
 		size++;
 		
 	}
@@ -183,7 +175,13 @@ public class MyLinkedList implements MyList {
      */
 	public void clear()
 	{
-		this.size = 0;
-		this.head = null;
+		while(head.next != null)
+		{
+			head.next = head.next.next;
+		}
+		current = head;
+		tail = head;
+		size = 0;
+		
 	}
 }

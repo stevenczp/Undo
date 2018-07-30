@@ -3,7 +3,7 @@ package com.cc.test.learn;
 /**
  * 继承MyList接口基于数组实现MyLinkedList
  * @author LiDanyang
- * @version 1.0 2018-07-26
+ * @version 2.0 2018-07-30
  */
 public class MyArrayList implements MyList{
 	
@@ -113,6 +113,7 @@ public class MyArrayList implements MyList{
 		{
 			originalArray[i] = originalArray[i+1];
 		}
+		currentLength--;
 		return elementOfList;
 		
 	}
