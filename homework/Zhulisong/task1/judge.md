@@ -1,0 +1,2 @@
+1. MyArrayList 我是希望你自己基于数组来实现的，直接使用JDK里原生的ArrayList 就没啥意义
+1. MyLinkedList 中应该定义一个Node内部类来存放数据，你直接使用MyLinkedList 做为Node了，这个不合适
