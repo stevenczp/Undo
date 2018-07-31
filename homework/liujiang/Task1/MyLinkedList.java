@@ -41,8 +41,9 @@ public class MyLinkedList<T> implements MyList<T> {
 		for(int i=0;i<=index;i++){
 			temp = temp.getNext();
 		}
+		T tempData = temp.getData();
 		temp.setData(element);
-		return temp.getData();
+		return tempData;
 	}
 
 	@Override

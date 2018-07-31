@@ -48,8 +48,9 @@ public class MyArrayList<T> implements MyList<T> {
 		if (index >= size || index < 0) {
 			throw new IllegalArgumentException("指针越界！");
 		}
+		T temp = list[index];
 		list[index] = element;
-		return list[index];
+		return temp;
 	}
 
 	@Override
