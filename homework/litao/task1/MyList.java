@@ -1,9 +1,5 @@
-package cn.lt.task1;
+package undo.task1;
 
-/**
- * @author cc
- * @date 2018/7/23 下午8:25
- */
 public interface MyList<T> {
     /**
      * 返回 List 内元素总量

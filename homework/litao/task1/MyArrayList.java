@@ -1,33 +1,37 @@
-package cn.lt.task1;
+package undo.task1;
 
 import java.util.Arrays;
-/**
- * @className:MyArrayList
- * @Description:实现数组
- * @author:TAO
- * @Date:2018/7/24 9:04
- */
-class MyArrayList<T> implements MyList<T> {
-    //数组的元素的个数
-    private int size=0;
-    private T list[];
+
+public class MyArrayList<T> implements MyList<T>{
+
+    //try to write series
+    private static final long  serialVersionUID=1L;
+
+    //set the default capacity
+    private static final int DEFAULT_CAPACITY = 10;
+
+    private T[] list;
     private int capacity;
-    private static final int initcapacity=100;
+    private int size;
 
-    //定义未给出容量的数组的初始化
-    public MyArrayList(){
-        this(initcapacity);
-    }
+    //set a 0 element list
+    private static final Object[] EMPTY_ELEMENTDATA = {};
 
-    public MyArrayList(int capacity){
-        this.capacity=capacity;
-        if(capacity>0)
-            list=(T [])new Object[capacity];
-        else if(capacity==0)
-            list=null;
-        else
-            throw new IllegalArgumentException("数组容量输入有误");
-    }
+    //default constructor
+   public MyArrayList(){
+       this(DEFAULT_CAPACITY);
+   }
+
+   public MyArrayList(int initialcapatity){
+       this.capacity=initialcapatity;
+       if(initialcapatity>0)
+           this.list=(T[])(new Object[initialcapatity]);
+       else if(initialcapatity==0)
+           list=(T[])EMPTY_ELEMENTDATA;
+       else
+           throw new IllegalArgumentException("Illegalcapacity"+initialcapatity);
+   }
+
 
     @Override
     public int size() {
@@ -36,9 +40,7 @@ class MyArrayList<T> implements MyList<T> {
 
     @Override
     public boolean isEmpty() {
-        if(this.size==0)
-            return true;
-        return false;
+        return size==0;
     }
 
     /**
@@ -46,65 +48,77 @@ class MyArrayList<T> implements MyList<T> {
      * @param element
      * @return
      */
-    //需要考虑到扩缩性---将数组的容量变大
+    //we need to think about the capacity
     @Override
     public void add(T element) {
-        if(size<capacity)
-            list[size++]=element;
-        else{
-            grows(size);
-            list[size++]=element;
-        }
+        if(size>=capacity)
+            list=grow();
+        list[size++]=element;
     }
 
-    private void grows(int miniCapacity) {
-        capacity  =  miniCapacity * 2;
-        list = Arrays.copyOf(list, capacity);
+    private T[] grow() {
+        return Arrays.copyOf(list, 2*size);
     }
+
+    /**
+     * 获取 List 下标为 index 的元素（下标从0开始）
+     * @param index
+     * @return
+     */
 
     @Override
     public T get(int index) {
-        if(index>=size||index<0)
-            throw new IndexOutOfBoundsException("角标越界！");
+        checkForIndex(index);
         return list[index];
     }
-        /**
-        * 将 List 中下标为 index 的元素替换为 element，并将 index 位上原有的元素返回
-        * 如果 index 越界，需要抛出异常
-        *  @param index
-        * @param element
-        * @return
-         */
+
+    private void checkForIndex(int index) {
+        if(index<0||index>size)
+            throw new IllegalArgumentException("IllegalIndex"+index);
+    }
+
+    /**
+     * 将 List 中下标为 index 的元素替换为 element，并将 index 位上原有的元素返回
+     * 如果 index 越界，需要抛出异常
+     * @param index
+     * @param element
+     * @return
+     */
+
     @Override
     public T set(int index, T element) {
-        if(index>=size||index<0)
-            throw new IndexOutOfBoundsException("角标越界！");
+        checkForIndex(index);
         T temp=list[index];
         list[index]=element;
         return temp;
     }
 
+    /**
+     *  移除 List 中下标为 index 的元素，并将这个元素返回
+     *  如果 index 越界，需要抛出异常
+     * @param index
+     * @return
+     */
+
     @Override
     public T remove(int index) {
-        if(size==0)
-            throw new IllegalArgumentException("数组为空");
-        if(index>=size||index<0)
-            throw new IndexOutOfBoundsException("角标越界！");
+        checkForIndex(index);
         T temp=list[index];
-        for(int i=index;i<size;i++)
+        for(int i=index;i<size-1;i++)
             list[i]=list[i+1];
         size--;
         return temp;
     }
 
-    //删除所有的元素
     @Override
     public void clear() {
-        list=null;
+        capacity=0;
         size=0;
+        list=null;
     }
 
-    public String toString(){
+    @Override
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < size; i++) {
             sb.append(list[i].toString() + " ");
@@ -112,22 +126,23 @@ class MyArrayList<T> implements MyList<T> {
         return sb.toString();
     }
 }
-//test
-class Test{
-    public static void main(String[] args) {
-        MyArrayList<Integer> myArrayList=new MyArrayList<>(5);
-        myArrayList.add(8);
-        myArrayList.add(7);
-        myArrayList.add(6);
-        myArrayList.add(5);
-        myArrayList.add(4);
-        myArrayList.add(3);
-        myArrayList.set(2,3);
-        System.out.println(myArrayList.toString());
-
-        myArrayList.remove(1);
-
-        System.out.println( myArrayList.get(1));
-        System.out.println( myArrayList.size());
-    }
-}
+//class Test{
+//    public static void main(String[] args) {
+//        MyArrayList<Integer> myArrayList=new MyArrayList<>(5);
+//        myArrayList.add(8);
+//        myArrayList.add(7);
+//        myArrayList.add(6);
+//        myArrayList.add(5);
+//        myArrayList.add(4);
+//        myArrayList.add(3);
+//        System.out.println(myArrayList.toString());
+//        System.out.println(myArrayList.size());
+//        myArrayList.set(2,3);
+//        System.out.println(myArrayList.toString());
+//
+//        myArrayList.remove(1);
+//
+//        System.out.println( myArrayList.get(1));
+//        System.out.println( myArrayList.size());
+//    }
+//}
