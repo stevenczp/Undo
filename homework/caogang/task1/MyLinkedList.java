@@ -83,6 +83,7 @@ public class MyLinkedList implements MyList {
 			for (int i = 0; i < index; i++) {
 				removeNode = removeNode.next;
 			}
+			Object removeData = removeNode.data;
 			//删除节点 为 首/尾节点的特殊情况(-----不能else if 若只剩一个节点 则  既是  first又是 last)
 			if (removeNode == first) {
 				first = removeNode.next;
@@ -105,7 +106,7 @@ public class MyLinkedList implements MyList {
 			removeNode.data = null;
 		
 			size--;
-			return removeNode.data;
+			return removeData;
 		} else {
 			throw new IndexOutOfBoundsException("索引"+index+"越界");
 		}
