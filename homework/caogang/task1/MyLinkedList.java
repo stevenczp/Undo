@@ -68,9 +68,9 @@ public class MyLinkedList implements MyList {
 			for (int i = 0; i < index; i++) {
 				setNode = setNode.next;
 			}
-			Node replacedNode = setNode;
+			Object replacedEle = setNode.data;
 			setNode.data = element;
-			return replacedNode.data;
+			return replacedEle;
 		} else {
 			throw new IndexOutOfBoundsException("索引"+index+"越界");
 		}
@@ -83,18 +83,27 @@ public class MyLinkedList implements MyList {
 			for (int i = 0; i < index; i++) {
 				removeNode = removeNode.next;
 			}
-			//删除节点 为 首/尾节点的特殊情况
+			//删除节点 为 首/尾节点的特殊情况(-----不能else if 若只剩一个节点 则  既是  first又是 last)
 			if (removeNode == first) {
 				first = removeNode.next;
 				//first.pre = null;
-			} else if (removeNode == last) {
+			} else {
+				removeNode.pre.next = removeNode.next;
+			}
+			
+			if (removeNode == last) {
 				last = removeNode.pre;
 				//last.next = null;
 			} else {
 				removeNode.next.pre = removeNode.pre;
-				removeNode.pre.next = removeNode.next;
 			}
 			
+//			removeNode.next.pre = removeNode.pre;
+//			removeNode.pre.next = removeNode.next;
+			removeNode.pre = null;
+			removeNode.next = null;
+			removeNode.data = null;
+		
 			size--;
 			return removeNode.data;
 		} else {
@@ -105,8 +114,8 @@ public class MyLinkedList implements MyList {
 	@Override
 	public void clear() {
 		Node clearNode = first;
-		for (int i = 0; i < size; i++) {
-			Node clearNext = clearNode.next;
+		for (int i = 0; i < size && clearNode!=null; i++) {
+			Node clearNext = clearNode.next;//-----加入 clearNode!=null的判断 去除 空指针错误
 			clearNode.pre = null;
 			clearNode.data = null;
 			clearNode.next = null;

@@ -36,8 +36,10 @@ public class MyArrayList implements MyList{
 		if(size < array.length) {
 			array[size++] = element;
 		}else {
-			//容量已满
-			Object[] arrayAdd = new Object[size+1];
+			//容量已满(--每次扩容只增长1的长度，在大量插入时效率低，JDK里是1.5倍扩容)
+			//若是空list 则默认给10的容量 
+			int cap = (array.length==0 ? 10 : size + (size >> 1));
+			Object[] arrayAdd = new Object[cap];
 			//copy数组 扩容
 			for (int i = 0; i < array.length; i++) {
 				arrayAdd[i] = array[i];
@@ -67,16 +69,16 @@ public class MyArrayList implements MyList{
 	public Object remove(int index) {
 		//index是否越界
 		if(index>=0 && index<size) {
-			//copy数组 缩容
+			//copy数组 缩容(--不需更换底层数组 直接在原数组里移动元素，size - 1)
 			Object replacedEle = array[index];
-			Object[] array2 = new Object[size-1];
+			//Object[] array2 = new Object[size-1];
 			int k = 0;
 			for (int i = 0; i < size; i++) {
 				if (i!=index) {
-					array2[k++] = array[i];
+					array[k++] = array[i];
 				}
 			}
-			array = array2;
+			//array = array2;
 			size--;
 			return replacedEle;
 		}else {
@@ -99,6 +101,10 @@ public class MyArrayList implements MyList{
 		}
 		out += "]";
 		return out;
+	}
+	
+	public Object[] toArray() {
+		return array;
 	}
 
 }
